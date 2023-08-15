@@ -1,0 +1,23 @@
+[
+  {"id": 1, "name": "Cookie", "brand": "Hershey's", "price": "2.45"},
+  {"id": 2, "name": "Chocolate Bar", "brand": "Hershey's", "price": 2.50},
+  {"id": 3, "name": "Gummy Bears", "brand": "Haribo", "price": 1.00},
+  {"id": 4, "name": "Potato Chips", "brand": "Lays", "price": 1.75},
+  {"id": 5, "name": "Apple", "brand": "Red Delicious", "price": 0.75},
+  {"id": 6, "name": "Orange Juice", "brand": "Tropicana", "price": 3.25},
+  {"id": 7, "name": "Bread", "brand": "Wonder", "price": 2.00},
+  {"id": 8, "name": "Milk", "brand": "Organic Farms", "price": 3.50},
+  {"id": 9, "name": "Cereal", "brand": "Kellogg's", "price": 4.50},
+  {"id": 10, "name": "Yogurt", "brand": "Chobani", "price": 1.25},
+  {"id": 11, "name": "Banana", "brand": "Cavendish", "price": 0.50},
+  {"id": 12, "name": "Ice Cream", "brand": "Ben & Jerry's", "price": 5.00},
+  {"id": 13, "name": "Coffee", "brand": "Starbucks", "price": 6.50},
+  {"id": 14, "name": "Salad", "brand": "Fresh Greens", "price": 8.00},
+  {"id": 15, "name": "Water", "brand": "Aquafina", "price": 1.00},
+  {"id": 16, "name": "Pasta", "brand": "Barilla", "price": 2.25},
+  {"id": 17, "name": "Pizza", "brand": "Domino's", "price": 10.00},
+  {"id": 18, "name": "Cookies", "brand": "Oreo", "price": 3.00},
+  {"id": 19, "name": "Soda", "brand": "Coca-Cola", "price": 1.25},
+  {"id": 20, "name": "Cheese", "brand": "Kraft", "price": 4.00},
+  {"id": 21, "name": "Eggs", "brand": "Farm Fresh", "price": 2.75}
+]
