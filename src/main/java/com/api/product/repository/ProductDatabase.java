@@ -43,7 +43,8 @@ public class ProductDatabase implements Database{
     public List<String> select(Long id) {
         List<String> productDetails = products.stream()
                 .filter(product -> product.getId() == id)
-                .map(product -> "Name: " + product.getName() +
+                .map(product -> "Id: " + product.getId() +
+                        ", Name: " + product.getName() +
                         ", Brand: " + product.getBrand() +
                         ", Price: " + product.getPrice())
                 .collect(Collectors.toList());
@@ -54,9 +55,10 @@ public class ProductDatabase implements Database{
         return productDetails;
     }
 
-    public List<String> selectall(Long id) {
+    public List<String> selectall() {
         List<String> productDetails = products.stream()
-                .map(product -> "Name: " + product.getName() +
+                .map(product -> "Id: " + product.getId() +
+                        ", Name: " + product.getName() +
                         ", Brand: " + product.getBrand() +
                         ", Price: " + product.getPrice())
                 .collect(Collectors.toList());

@@ -1,5 +1,6 @@
 package com.api.product.controller;
 
+import com.api.product.model.Product;
 import com.api.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/product")
@@ -23,7 +25,8 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity getAllProducts(@PathVariable("id") Long id){
-        List<String> product = ps.select(id);
-        return ResponseEntity.ok(product);
+        return ResponseEntity.ok(ps.select(id));
     }
+
+
 }
