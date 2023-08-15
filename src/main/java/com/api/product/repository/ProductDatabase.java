@@ -48,10 +48,6 @@ public class ProductDatabase implements Database{
                         ", Brand: " + product.getBrand() +
                         ", Price: " + product.getPrice())
                 .collect(Collectors.toList());
-
-        if (productDetails.isEmpty()) {
-            productDetails.add("Product not found.");
-        }
         return productDetails;
     }
 
@@ -62,7 +58,6 @@ public class ProductDatabase implements Database{
                         ", Brand: " + product.getBrand() +
                         ", Price: " + product.getPrice())
                 .collect(Collectors.toList());
-
         if (productDetails.isEmpty()) {
             productDetails.add("Product not found.");
         }

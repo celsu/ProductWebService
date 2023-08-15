@@ -1,13 +1,11 @@
 package com.api.product.controller;
 
+import com.api.product.exception.ProductNotFoundException;
 import com.api.product.model.Product;
 import com.api.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,8 +23,11 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ResponseEntity getAllProducts(@PathVariable("id") Long id){
-        return ResponseEntity.ok(ps.select(id));
+
+        List<Product> products = ps.select(id);
+        if (products.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(products);
     }
-
-
 }

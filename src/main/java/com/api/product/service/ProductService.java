@@ -1,10 +1,12 @@
 package com.api.product.service;
 
+import com.api.product.exception.ProductNotFoundException;
 import com.api.product.model.Product;
 import com.api.product.repository.ProductDatabase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,10 +30,14 @@ public class ProductService {
             return productList;
         }else{
             List<String> productDetails = pd.select(id);
-            List<Product> productList = productDetails.stream()
-                    .map(this::convertStringToProduct)
-                    .collect(Collectors.toList());
-            return productList;
+            if (productDetails == null || productDetails.isEmpty()) {
+                throw new ProductNotFoundException("Product with ID " + id + " not found.");
+            } else {
+                List<Product> productList = productDetails.stream()
+                        .map(this::convertStringToProduct)
+                        .collect(Collectors.toList());
+                return productList;
+            }
         }
     }
 
