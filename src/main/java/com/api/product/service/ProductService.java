@@ -63,4 +63,9 @@ public class ProductService {
             return null;
         }
     }
+
+    public void insert(String po) {
+        pd.insert(po);
+
+    }
 }

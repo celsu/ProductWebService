@@ -30,4 +30,16 @@ public class ProductController {
         }
         return ResponseEntity.ok(products);
     }
+
+    @PostMapping
+    public ResponseEntity postProduct (@RequestBody String po){
+        try {
+            ps.insert(po);
+            return null;
+
+        }catch (Exception e){
+            return null;
+
+        }
+    }
 }
