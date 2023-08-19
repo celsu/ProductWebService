@@ -3,15 +3,22 @@ package com.api.product.service;
 import com.api.product.exception.ProductNotFoundException;
 import com.api.product.model.Product;
 import com.api.product.repository.ProductDatabase;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
+
+    private List<Product> products;
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     ProductDatabase pd = new ProductDatabase();
 
@@ -65,6 +72,7 @@ public class ProductService {
     }
 
     public void insert(String po) {
+
         pd.insert(po);
 
     }

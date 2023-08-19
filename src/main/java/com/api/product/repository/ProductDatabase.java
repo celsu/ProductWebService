@@ -1,6 +1,7 @@
 package com.api.product.repository;
 import com.api.product.model.Product;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import java.nio.file.StandardOpenOption;
 public class ProductDatabase implements Database{
 
     private List<Product> products;
+    private List<Product> productsPost;
     private final String JSON_FILE_PATH = "src/main/java/com/api/product/repository/products.json";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -80,26 +82,23 @@ public class ProductDatabase implements Database{
     public Long insert(String row) {
         //System.out.println("LINHA BODY: " + row);
 
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            ObjectMapper objectMapper = new ObjectMapper();
+            productsPost = objectMapper.readValue(row, new TypeReference<List<Product>>() {});
+            products.addAll(productsPost);
+            System.out.println(products);
+            objectMapper.writeValue(new File(JSON_FILE_PATH), products);
 
-            // Lê o conteúdo atual do arquivo
-            List<Product> currentProducts = objectMapper.readValue(new File(JSON_FILE_PATH),
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class));
 
-            System.out.println("Product Convertido: "+convertStringToProduct(row));
-            // Adiciona o novo objeto Product à lista
-            currentProducts.add(convertStringToProduct(row));
-
-            // Escreve a lista atualizada de volta no arquivo
-            objectMapper.writeValue(new File(JSON_FILE_PATH), currentProducts);
-
-            System.out.println("Product inserted successfully.");
-
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
-            System.out.println("Failed to insert product.");
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
+        //System.out.println("PRODUTOS UPLOADED"+products);
+        //products.stream().forEach(System.out::println);
+
 
         return null;
     }
@@ -114,7 +113,7 @@ public class ProductDatabase implements Database{
         return false;
     }
 
-        public static Product convertStringToProduct(String jsonString) {
+/*        public static Product convertStringToProduct(String jsonString) {
             try {
                 System.out.println(jsonString);
                 return objectMapper.readValue(jsonString, Product.class);
@@ -122,5 +121,5 @@ public class ProductDatabase implements Database{
                 e.printStackTrace();
                 return null;
             }
-        }
+        }*/
 }
