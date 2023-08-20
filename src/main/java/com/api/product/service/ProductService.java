@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -91,5 +90,9 @@ public class ProductService {
     public void delete(Long id) {
         pd.delete(id);
 
+    }
+
+    public void update(Long id, String po) {
+        pd.update(id,po);
     }
 }

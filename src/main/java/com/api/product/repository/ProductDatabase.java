@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.io.IOException;
@@ -16,6 +15,8 @@ public class ProductDatabase implements Database{
 
     private List<Product> products;
     private List<Product> productsPost;
+
+    private List<Product> productsUpdate;
     private final String JSON_FILE_PATH = "src/main/java/com/api/product/repository/products.json";
     private static ObjectMapper objectMapper = new ObjectMapper();
 
@@ -71,13 +72,36 @@ public class ProductDatabase implements Database{
 
     @Override
     public boolean update(Long id, String newRow) {
-        return false;
+
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            Product productToUpdate = objectMapper.readValue(newRow, Product.class);
+            productToUpdate.setId(id);
+
+            //productsUpdate
+            products = products.stream()
+                    .map(product -> product.getId().equals(id) ? productToUpdate : product)
+                    .collect(Collectors.toList());
+            objectMapper.writeValue(new File(JSON_FILE_PATH), products);
+            return true;
+            //products.forEach(System.out::println);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public boolean delete(Long id) {
         loadProducts();
         products.removeIf(product -> product.getId().equals(id));
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            objectMapper.writeValue(new File(JSON_FILE_PATH), products);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         System.out.println(products.toString());
         //products.forEach(System.out::println);
