@@ -1,26 +1,16 @@
 package com.api.product.repository;
 import com.api.product.model.Product;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ResourceLoader;
-
 import java.io.*;
-import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
-import org.springframework.stereotype.Component;
-
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
+
 
 public class ProductDatabase implements Database{
 
@@ -49,14 +39,7 @@ public class ProductDatabase implements Database{
 
     @Override
     public List<String> select(Long id) {
-        List<String> productDetails = products.stream()
-                .filter(product -> product.getId() == id)
-                .map(product -> "Id: " + product.getId() +
-                        ", Name: " + product.getName() +
-                        ", Brand: " + product.getBrand() +
-                        ", Price: " + product.getPrice())
-                .collect(Collectors.toList());
-        return productDetails;
+        return null;
     }
 
     public List<String> selectall() {
@@ -74,8 +57,6 @@ public class ProductDatabase implements Database{
 
     @Override
     public Long insert(String row) {
-        //System.out.println("LINHA BODY: " + row);
-
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             productsPost = objectMapper.readValue(row, new TypeReference<List<Product>>() {});
@@ -85,11 +66,6 @@ public class ProductDatabase implements Database{
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        //System.out.println("PRODUTOS UPLOADED"+products);
-        //products.stream().forEach(System.out::println);
-
-
         return null;
     }
 
@@ -100,16 +76,11 @@ public class ProductDatabase implements Database{
 
     @Override
     public boolean delete(Long id) {
+        loadProducts();
+        products.removeIf(product -> product.getId().equals(id));
+
+        System.out.println(products.toString());
+        //products.forEach(System.out::println);
         return false;
     }
-
-/*        public static Product convertStringToProduct(String jsonString) {
-            try {
-                System.out.println(jsonString);
-                return objectMapper.readValue(jsonString, Product.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }*/
 }

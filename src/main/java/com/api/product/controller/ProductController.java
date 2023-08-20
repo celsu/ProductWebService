@@ -1,6 +1,5 @@
 package com.api.product.controller;
 
-import com.api.product.exception.ProductNotFoundException;
 import com.api.product.model.Product;
 import com.api.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,11 +34,17 @@ public class ProductController {
     public ResponseEntity postProduct (@RequestBody String po){
         try {
             ps.insert(po);
-            return null;
+            return ResponseEntity.ok("Created");
 
         }catch (Exception e){
-            return null;
+            return (ResponseEntity) ResponseEntity.badRequest();
 
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct (@PathVariable("id") Long id){
+        ps.delete(id);
+        return null;
     }
 }
