@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,9 +29,56 @@ public class ProductService {
 
     }
 
-    public List<Product> select(Long id){
-        if(id== -1){
+    public List<Product> select(Long idSearch){
+        List<String> productsString = pd.selectall();
+        List<Product> productList = new ArrayList<>();
+
+        for (String productString : productsString) {
+            String[] parts = productString.split(", ");
+            Long id = null;
+            String name = null;
+            String brand = null;
+            double price = 0.0;
+
+            for (String part : parts) {
+                String[] keyValue = part.split(": ");
+                if (keyValue.length == 2) {
+                    String key = keyValue[0].trim();
+                    String value = keyValue[1].trim();
+
+                    switch (key) {
+                        case "Id":
+                            id = Long.parseLong(value);
+                            break;
+                        case "Name":
+                            name = value;
+                            break;
+                        case "Brand":
+                            brand = value;
+                            break;
+                        case "Price":
+                            price = Double.parseDouble(value);
+                            break;
+                    }
+                }
+            }
+
+            if (id != null && name != null && brand != null) {
+                Product product = new Product();
+                product.setId(id);
+                product.setName(name);
+                product.setBrand(brand);
+                product.setPrice(price);
+                productList.add(product);
+            }
+        }
+        productList.forEach(product -> System.out.println("Product Details: " + product));
+        //productList.forEach(System.out::println);
+
+        return productList;
+        /*if(id== -1){
             List<String> products = pd.selectall();
+            products.forEach(System.out::println);
             List<Product> productList = products.stream()
                     .map(this::convertStringToProduct)
                     .collect(Collectors.toList());
@@ -45,10 +93,10 @@ public class ProductService {
                         .collect(Collectors.toList());
                 return productList;
             }
-        }
+        }*/
     }
 
-    private Product convertStringToProduct(String productString) {
+    /*private Product convertStringToProduct(String productString) {
         try {
             String[] parts = productString.split(", ");
 
@@ -69,11 +117,9 @@ public class ProductService {
             e.printStackTrace();
             return null;
         }
-    }
+    }*/
 
     public void insert(String po) {
-
         pd.insert(po);
-
     }
 }

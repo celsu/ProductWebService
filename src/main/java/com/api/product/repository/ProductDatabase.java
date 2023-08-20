@@ -40,12 +40,6 @@ public class ProductDatabase implements Database{
         try {
             products = objectMapper.readValue(new File(JSON_FILE_PATH),
                     objectMapper.getTypeFactory().constructCollectionType(List.class, Product.class));
-            /*products.forEach((po -> {
-                System.out.println("ID: " + po.getId());
-                System.out.println("Name: " + po.getName());
-                System.out.println("Brand: " + po.getBrand());
-                System.out.println("Price: " + po.getPrice());
-            }));*/
         } catch (IOException e) {
             System.out.println("Problem to load JSON.");
             e.printStackTrace();
@@ -66,16 +60,16 @@ public class ProductDatabase implements Database{
     }
 
     public List<String> selectall() {
-        List<String> productDetails = products.stream()
+        List<String> allproducts = products.stream()
                 .map(product -> "Id: " + product.getId() +
                         ", Name: " + product.getName() +
                         ", Brand: " + product.getBrand() +
                         ", Price: " + product.getPrice())
                 .collect(Collectors.toList());
-        if (productDetails.isEmpty()) {
-            productDetails.add("Product not found.");
+        if (allproducts.isEmpty()) {
+            allproducts.add("Product not found.");
         }
-        return productDetails;
+        return allproducts;
     }
 
     @Override
@@ -88,10 +82,6 @@ public class ProductDatabase implements Database{
             products.addAll(productsPost);
             System.out.println(products);
             objectMapper.writeValue(new File(JSON_FILE_PATH), products);
-
-
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
